@@ -1,0 +1,17 @@
+CREATE TABLE membership_benefit (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    benefit_code VARCHAR(100) NOT NULL UNIQUE,
+
+    benefit_name VARCHAR(200) NOT NULL,
+
+    benefit_type VARCHAR(50) NOT NULL,
+
+    benefit_value DECIMAL(10,2),
+
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);

@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MembershipTier extends BaseEntity {
+public class MembershipTierEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +38,5 @@ public class MembershipTier extends BaseEntity {
             joinColumns = @JoinColumn(name = "tier_id"),
             inverseJoinColumns = @JoinColumn(name = "benefit_id")
     )
-    private Set<MembershipBenefit> benefits;
+    private Set<MembershipBenefitEntity> benefits;
 }

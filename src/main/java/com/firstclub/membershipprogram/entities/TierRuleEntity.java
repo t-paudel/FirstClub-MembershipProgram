@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TierRule extends BaseEntity {
+public class TierRuleEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class TierRule extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tier_id", nullable = false)
-    private MembershipTier tier;
+    private MembershipTierEntity tier;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "rule_type", nullable = false)

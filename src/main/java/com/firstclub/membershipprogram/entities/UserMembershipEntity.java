@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserMembership extends BaseEntity {
+public class UserMembershipEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class UserMembership extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
-    private MembershipPlan plan;
+    private MembershipPlanEntity plan;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tier_id", nullable = false)
-    private MembershipTier tier;
+    private MembershipTierEntity tier;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

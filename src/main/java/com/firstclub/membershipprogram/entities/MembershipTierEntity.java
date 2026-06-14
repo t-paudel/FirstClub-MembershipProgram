@@ -24,6 +24,6 @@ public class MembershipTierEntity extends BaseEntity {
     @Column(name = "tier_level", nullable = false, unique = true)
     private Integer tierLevel;
 
-    @OneToMany(mappedBy = "membership_tier_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "membershipTier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TierBenefitEntity> benefits;
 }

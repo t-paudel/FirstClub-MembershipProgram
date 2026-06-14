@@ -7,9 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserSubscriptionDto {
+public class MembershipPlanDto {
     private Long id;
-    private String userName;
-    private TierPlanPricingDto tierPlanPricing;
-    private SubscriptionStatus status;
+    private String name;
+    private int durationMonths;
 }

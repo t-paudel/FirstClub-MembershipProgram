@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class UserSubscriptionDto {
+public class MembershipTierDto {
     private Long id;
-    private String userName;
-    private TierPlanPricingDto tierPlanPricing;
-    private SubscriptionStatus status;
+    private String name;
+    private int tierLevel;
+    private List<TierBenefitDto> benefits;
 }

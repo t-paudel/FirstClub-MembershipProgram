@@ -29,6 +29,9 @@ public class UserSubscriptionEntity extends BaseEntity {
     @Column(nullable = false)
     private SubscriptionStatus status;
 
+    @Column(name = "cancel_at_period_end", nullable = false)
+    private Boolean cancelAtPeriodEnd = false;
+
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 

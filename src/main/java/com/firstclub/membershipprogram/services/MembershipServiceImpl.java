@@ -77,31 +77,26 @@ public class MembershipServiceImpl implements MembershipService {
         TierPlanPricingEntity newPricing = pricingRepository.findActivePricing(targetTier.getId(), currentPlanId)
                 .orElseThrow(() -> new IllegalArgumentException("Pricing matrix configuration missing for target tier and current plan."));
 
-
-        String actionType = targetTier.getTierLevel() > currentTier.getTierLevel() ? "UPGRADE" : "DOWNGRADE";
-
-        activeSub.setStatus(SubscriptionStatus.valueOf(actionType + "D"));
-        subscriptionRepository.save(activeSub);
-
-        UserSubscriptionEntity newSubscription = new UserSubscriptionEntity();
-        newSubscription.setUserName(userName);
-        newSubscription.setTierPlanPricing(newPricing);
-        newSubscription.setStatus(SubscriptionStatus.ACTIVE);
-        newSubscription.setStartDate(LocalDateTime.now());
-        newSubscription.setEndDate(activeSub.getEndDate());
-
-        UserSubscriptionEntity savedEntity = subscriptionRepository.save(newSubscription);
+        activeSub.setTierPlanPricing(newPricing);
+        UserSubscriptionEntity savedEntity = subscriptionRepository.save(activeSub);
 
         return subscriptionMapper.map(savedEntity);
     }
 
     @Override
     public void cancelSubscription(String userName) {
+        UserSubscriptionEntity activeSub = subscriptionRepository.findActiveSubscriptionForUpdate(userName)
+                .orElseThrow(() -> new IllegalStateException("No active subscription found to cancel."));
 
+        activeSub.setCancelAtPeriodEnd(true);
+        activeSub.setStatus(SubscriptionStatus.CANCELLED);
+        subscriptionRepository.save(activeSub);
     }
 
     @Override
     public UserSubscriptionDto getCurrentMembership(String userName) {
-        return null;
+        Optional<UserSubscriptionEntity> data = subscriptionRepository.findActiveSubscription(userName, LocalDateTime.now());
+
+        return data.map(entity -> subscriptionMapper.map(entity)).orElse(null);
     }
 }

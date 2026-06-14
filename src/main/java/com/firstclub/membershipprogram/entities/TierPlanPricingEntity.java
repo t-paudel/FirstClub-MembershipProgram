@@ -18,11 +18,11 @@ public class TierPlanPricingEntity extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tier_id", nullable = false)
+    @JoinColumn(name = "membership_tier_id", nullable = false)
     private MembershipTierEntity tier;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id", nullable = false)
+    @JoinColumn(name = "membership_plan_id", nullable = false)
     private MembershipPlanEntity plan;
 
     @Column(nullable = false)

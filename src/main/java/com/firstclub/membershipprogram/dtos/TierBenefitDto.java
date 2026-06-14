@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserSubscriptionDto {
+public class TierBenefitDto {
     private Long id;
-    private String userName;
-    private TierPlanPricingDto tierPlanPricing;
-    private SubscriptionStatus status;
+    private String tierLevel;
+    private BenefitType benefitType;
+    private String benefitValue;
 }

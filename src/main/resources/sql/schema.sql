@@ -20,7 +20,7 @@ CREATE TABLE tier_plan_pricing (
        id BIGINT AUTO_INCREMENT PRIMARY KEY,
        membership_tier_id BIGINT,
        membership_plan_id BIGINT,
-       price DECIMAL(10, 2) NOT NULL UNIQUE,
+       price DECIMAL(10, 2) NOT NULL,
        is_active BOOLEAN,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -1,21 +1,14 @@
 package com.firstclub.membershipprogram.services;
 
 import com.firstclub.membershipprogram.dtos.SubscriptionRequest;
-import com.firstclub.membershipprogram.dtos.UserMembershipDto;
-import com.firstclub.membershipprogram.entities.UserSubscriptionEntity;
-
-import java.util.List;
+import com.firstclub.membershipprogram.dtos.UserSubscriptionDto;
 
 public interface MembershipService {
-    List<UserMembershipDto> getPlans();
+    UserSubscriptionDto createSubscription(SubscriptionRequest request);
 
-    void subscribe(UserMembershipDto userMembershipDto);
-
-    UserSubscriptionEntity createSubscription(SubscriptionRequest request);
-
-    UserSubscriptionEntity changeTier(String userName, Long tierId);
+    UserSubscriptionDto changeTier(String userName, Long tierId);
 
     void cancelSubscription(String userName);
 
-    UserSubscriptionEntity getCurrentMembership(String userName);
+    UserSubscriptionDto getCurrentMembership(String userName);
 }

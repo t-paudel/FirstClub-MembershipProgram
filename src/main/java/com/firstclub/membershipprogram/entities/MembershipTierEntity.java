@@ -1,42 +1,29 @@
 package com.firstclub.membershipprogram.entities;
 
-import com.firstclub.membershipprogram.dtos.TierCode;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table(name = "membership_tier")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Table(name = "membership_tiers")
 public class MembershipTierEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tier_code", nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
-    private TierCode tierCode;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-    @Column(name = "tier_name", nullable = false)
-    private String tierName;
+    @Column(name = "tier_level", nullable = false, unique = true)
+    private Integer tierLevel;
 
-    @Column(nullable = false)
-    private Integer priority;
-
-    @Column(nullable = false)
-    private Boolean active;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "tier_benefit_mapping",
-            joinColumns = @JoinColumn(name = "tier_id"),
-            inverseJoinColumns = @JoinColumn(name = "benefit_id")
-    )
-    private Set<MembershipBenefitEntity> benefits;
+    @OneToMany(mappedBy = "membership_tier_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TierBenefitEntity> benefits;
 }

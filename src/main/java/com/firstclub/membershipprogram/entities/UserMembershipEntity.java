@@ -1,6 +1,8 @@
 package com.firstclub.membershipprogram.entities;
 
-import com.firstclub.membershipprogram.dtos.MembershipStatus;
+import com.firstclub.membershipprogram.dtos.SubscriptionStatus;
+//import com.firstclub.membershipprogram.dtos.PlanType;
+//import com.firstclub.membershipprogram.dtos.TierType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,19 +28,19 @@ public class UserMembershipEntity extends BaseEntity {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id", nullable = false)
-    private MembershipPlanEntity plan;
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private PlanType plan;
+//
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private TierType tier;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tier_id", nullable = false)
-    private MembershipTierEntity tier;
-
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MembershipStatus status;
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

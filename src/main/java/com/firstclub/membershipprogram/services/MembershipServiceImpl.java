@@ -2,12 +2,11 @@ package com.firstclub.membershipprogram.services;
 
 import com.firstclub.membershipprogram.dtos.SubscriptionRequest;
 import com.firstclub.membershipprogram.dtos.SubscriptionStatus;
-import com.firstclub.membershipprogram.dtos.UserMembershipDto;
+import com.firstclub.membershipprogram.dtos.UserSubscriptionDto;
 import com.firstclub.membershipprogram.entities.MembershipTierEntity;
 import com.firstclub.membershipprogram.entities.TierPlanPricingEntity;
 import com.firstclub.membershipprogram.entities.UserSubscriptionEntity;
-import com.firstclub.membershipprogram.mappers.UserMembershipMapper;
-import com.firstclub.membershipprogram.repositories.MembershipRepository;
+import com.firstclub.membershipprogram.mappers.UserSubscriptionMapper;
 
 import com.firstclub.membershipprogram.repositories.MembershipTierRepository;
 import com.firstclub.membershipprogram.repositories.TierPlanPricingRepository;
@@ -17,15 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class MembershipServiceImpl implements MembershipService {
-
-    @Autowired
-    MembershipRepository membershipRepository;
 
     @Autowired
     UserSubscriptionRepository subscriptionRepository;
@@ -37,20 +32,10 @@ public class MembershipServiceImpl implements MembershipService {
     MembershipTierRepository tierRepository;
 
     @Autowired
-    UserMembershipMapper mapper;
+    UserSubscriptionMapper subscriptionMapper;
 
     @Override
-    public List<UserMembershipDto> getPlans() {
-        return membershipRepository.findAll().stream().map(mapper::map).toList();
-    }
-
-    @Override
-    public void subscribe(UserMembershipDto dto) {
-        membershipRepository.save(mapper.reverse(dto));
-    }
-
-    @Override
-    public UserSubscriptionEntity createSubscription(SubscriptionRequest request) {
+    public UserSubscriptionDto createSubscription(SubscriptionRequest request) {
         Optional<UserSubscriptionEntity> existing = subscriptionRepository.findActiveSubscription(request.getUserName(),
                 LocalDateTime.now());
         if(existing.isPresent())
@@ -69,11 +54,14 @@ public class MembershipServiceImpl implements MembershipService {
         subscription.setStartDate(startDate);
         subscription.setEndDate(endDate);
 
-        return subscriptionRepository.save(subscription);
+
+        UserSubscriptionEntity savedEntity = subscriptionRepository.save(subscription);
+
+        return subscriptionMapper.map(savedEntity);
     }
 
     @Override
-    public UserSubscriptionEntity changeTier(String userName, Long tierId) {
+    public UserSubscriptionDto changeTier(String userName, Long tierId) {
         UserSubscriptionEntity activeSub = subscriptionRepository.findActiveSubscriptionForUpdate(userName)
                 .orElseThrow(() -> new IllegalStateException("No active subscription found to modify."));
 
@@ -102,7 +90,9 @@ public class MembershipServiceImpl implements MembershipService {
         newSubscription.setStartDate(LocalDateTime.now());
         newSubscription.setEndDate(activeSub.getEndDate());
 
-        return subscriptionRepository.save(newSubscription);
+        UserSubscriptionEntity savedEntity = subscriptionRepository.save(newSubscription);
+
+        return subscriptionMapper.map(savedEntity);
     }
 
     @Override
@@ -111,7 +101,7 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
-    public UserSubscriptionEntity getCurrentMembership(String userName) {
+    public UserSubscriptionDto getCurrentMembership(String userName) {
         return null;
     }
 }

@@ -1,11 +1,11 @@
 package com.firstclub.membershipprogram.controllers;
 
-import com.firstclub.membershipprogram.dtos.MembershipPlanDto;
+import com.firstclub.membershipprogram.dtos.SubscriptionRequest;
+import com.firstclub.membershipprogram.dtos.UserMembershipDto;
+import com.firstclub.membershipprogram.entities.UserSubscriptionEntity;
 import com.firstclub.membershipprogram.services.MembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +17,12 @@ public class MembershipController {
     private MembershipService membershipService;
 
     @GetMapping("/plans")
-    public List<MembershipPlanDto> getPlans() {
-        System.out.println("Hello");
+    public List<UserMembershipDto> getPlans() {
         return membershipService.getPlans();
+    }
+
+    @PostMapping()
+    public UserSubscriptionEntity createSubscription(@RequestBody SubscriptionRequest request) {
+        return membershipService.createSubscription(request);
     }
 }

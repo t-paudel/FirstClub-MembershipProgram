@@ -1,6 +1,6 @@
 package com.firstclub.membershipprogram.dtos;
 
-public enum MembershipStatus {
+public enum SubscriptionStatus {
     ACTIVE,
     PENDING,
     CANCELLED,

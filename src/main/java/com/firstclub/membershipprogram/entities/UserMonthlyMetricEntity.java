@@ -11,7 +11,10 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_monthly_metrics")
+@Table(name = "user_monthly_metrics",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UK_user_month", columnNames = {"user_name", "month_year"})
+        })
 public class UserMonthlyMetricEntity extends BaseEntity {
 
     @Id

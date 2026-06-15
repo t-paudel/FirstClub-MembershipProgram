@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "benefit")
+@Table(name = "benefits")
 public class BenefitEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

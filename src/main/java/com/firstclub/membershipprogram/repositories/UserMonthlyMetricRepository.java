@@ -18,7 +18,19 @@ public interface UserMonthlyMetricRepository extends JpaRepository<UserMonthlyMe
             "SET u.orderCount = u.orderCount + 1, " +
             "u.totalOrderValue = u.totalOrderValue + :orderValue " +
             "WHERE u.userName = :userName AND u.monthYear = :monthYear")
-    int incrementUserMetrics(@Param("userName") String userName,
+    int incrementUserMetrics1(@Param("userName") String userName,
                              @Param("monthYear") String monthYear,
                              @Param("orderValue") BigDecimal orderValue);
+
+    @Modifying
+    @Query(value = """
+    INSERT INTO user_monthly_metrics (user_name, month_year, order_count, total_order_value)
+    VALUES (:userName, :monthYear, 1, :orderValue)
+    ON DUPLICATE KEY UPDATE 
+        order_count = order_count + 1,
+        total_order_value = total_order_value + :orderValue
+    """, nativeQuery = true)
+    int incrementUserMetrics(@Param("userName") String userName,
+                              @Param("monthYear") String monthYear,
+                              @Param("orderValue") BigDecimal orderValue);
 }

@@ -54,7 +54,6 @@ public class MembershipServiceImpl implements MembershipService {
         subscription.setStartDate(startDate);
         subscription.setEndDate(endDate);
 
-
         UserSubscriptionEntity savedEntity = subscriptionRepository.save(subscription);
 
         return subscriptionMapper.map(savedEntity);

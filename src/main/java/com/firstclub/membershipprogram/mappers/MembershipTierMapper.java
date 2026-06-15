@@ -20,7 +20,9 @@ public class MembershipTierMapper {
 
     public MembershipTierDto map(MembershipTierEntity entity) {
         MembershipTierDto dto = new MembershipTierDto();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
+        dto.setTierLevel(entity.getTierLevel());
 
         return dto;
     }

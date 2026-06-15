@@ -80,13 +80,16 @@ CREATE TABLE user_subscriptions (
 );
 
 CREATE TABLE user_monthly_metrics (
-      user_name VARCHAR(50) PRIMARY KEY,
+      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+      user_name VARCHAR(50),
       month_year VARCHAR(50),
       order_count INT,
       total_order_value DECIMAL(10, 2),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           ON UPDATE CURRENT_TIMESTAMP
+
+      ADD CONSTRAINT UK_user_month UNIQUE (user_name, month_year);
 );
 
 

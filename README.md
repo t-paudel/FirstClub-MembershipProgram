@@ -9,29 +9,27 @@ benefits, and a smooth experience integrated with the shopping and checkout jour
 
 **1. Membership Plans:**
 
-i. Users can choose from Monthly, Quarterly, and Yearly membership plans.
-
-ii. Each plan comes with specific pricing
+- Users can choose from Monthly, Quarterly, and Yearly membership plans.
+- Each plan comes with specific pricing
 
 **2. Membership Benefits: {Optional}**
-
-● Free delivery on eligible orders.
-● Extra X% discount on selected items or categories.
-● Access to exclusive deals and early access to sales.
-● Optional: Priority support for premium members.
-● Each tier unlocks additional perks (e.g., higher discounts, faster delivery, exclusive
+- Free delivery on eligible orders. 
+- Extra X% discount on selected items or categories. 
+- Access to exclusive deals and early access to sales. 
+- Optional: Priority support for premium members. 
+- Each tier unlocks additional perks (e.g., higher discounts, faster delivery, exclusive
 coupons). - should be configurable
 
 **3. User Actions:**
 
-● Get Membership Plans and Tier to be selected by the user
-● Subscribe to a plan (plan + tier).
-● Upgrade, downgrade(Membership Tier), or cancel a subscription.
-● Track current membership and expiry.
+- Get Membership Plans and Tier to be selected by the user 
+- Subscribe to a plan (plan + tier). 
+- Upgrade, downgrade(Membership Tier), or cancel a subscription. 
+- Track current membership and expiry.
 
 **4. Membership Tiers:**
 
-● Users move through tiers (e.g., Silver, Gold, Platinum) based on criteria like:
-○ Number of Order more than X
-○ Total Order value in a month
-○ User belonging to a certain cohort
+- Users move through tiers (e.g., Silver, Gold, Platinum) based on criteria like:
+  - Number of Order more than X.
+  - Total Order value in a month. 
+  - User belonging to a certain cohort.

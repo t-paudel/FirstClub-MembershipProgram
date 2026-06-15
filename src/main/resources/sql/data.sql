@@ -18,11 +18,13 @@ INSERT INTO tier_plan_pricing (membership_tier_id, membership_plan_id, price, is
 INSERT INTO tier_plan_pricing (membership_tier_id, membership_plan_id, price, is_active) VALUES (3, 2, 89.99, 1);  -- Platinum Quarterly
 INSERT INTO tier_plan_pricing (membership_tier_id, membership_plan_id, price, is_active) VALUES (3, 3, 299.99, 1); -- Platinum Yearly
 
-
-INSERT INTO benefits (id, benefit_type) VALUES (1, 'FREE_DELIVERY');
+INSERT INTO benefits (id, benefit_type) VALUES (1, 'DELIVERY_CHARGES');
 INSERT INTO benefits (id, benefit_type) VALUES (2, 'CATEGORY_DISCOUNT');
 INSERT INTO benefits (id, benefit_type) VALUES (3, 'EARLY_ACCESS');
 INSERT INTO benefits (id, benefit_type) VALUES (4, 'PREMIUM_SUPPORT');
+
+INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
+VALUES (1, 1, '100'); -- Delivery charges = 100
 
 INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
 VALUES (1, 2, '5'); -- 5% Discount
@@ -31,10 +33,19 @@ INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
 VALUES (2, 2, '10'); -- 10% Discount
 
 INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
-VALUES (2, 1, 'true'); -- Free Delivery Enabled
+VALUES (2, 1, '50'); -- Delivery charges = 50
+
+INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
+VALUES (2, 3, 'true'); -- Early Access
 
 INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
 VALUES (3, 2, '15'); -- 15% Discount
 
 INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
-VALUES (3, 1, 'true');
+VALUES (3, 1, '0'); -- Free Delivery
+
+INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
+VALUES (3, 4, 'true'); -- Premium Support
+
+INSERT INTO tier_benefits (membership_tier_id, benefit_id, benefit_value)
+VALUES (3, 3, 'true'); -- Early Access

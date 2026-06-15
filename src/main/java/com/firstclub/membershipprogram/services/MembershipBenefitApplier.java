@@ -41,13 +41,13 @@ public class MembershipBenefitApplier {
         return originalPrice;
     }
 
-    public boolean hasFreeDelivery(String userName) {
+    public BigDecimal calculateDeliveryCharges(String userName) {
         return subscriptionRepository.findActiveSubscription(userName, LocalDateTime.now())
                 .map(sub -> sub.getTierPlanPricing().getTier().getBenefits().stream()
-                        .filter(b -> BenefitType.FREE_DELIVERY.equals(b.getBenefit().getBenefitType()))
-                        .map(b -> Boolean.parseBoolean(b.getBenefitValue()))
+                        .filter(b -> BenefitType.DELIVERY_CHARGES.equals(b.getBenefit().getBenefitType()))
                         .findFirst()
-                        .orElse(false))
-                .orElse(false);
+                        .map(b -> new BigDecimal(b.getBenefitValue()))
+                        .orElse(new BigDecimal(150)))
+                .orElse(new BigDecimal(150));
     }
 }

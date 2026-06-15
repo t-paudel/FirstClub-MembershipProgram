@@ -25,18 +25,17 @@ public class UserSubscriptionMapper {
         membershipTierDto.setName(entity.getTierPlanPricing().getTier().getName());
         membershipTierDto.setTierLevel(entity.getTierPlanPricing().getTier().getTierLevel());
 
-//        List<TierBenefitDto> tierBenefitDtoList = new ArrayList<>();
-//        entity.getTierPlanPricing().getTier().getBenefits().forEach(benefit -> {
-//            TierBenefitDto dto = new TierBenefitDto();
-//            dto.setId(benefit.getId());
-//            dto.setTierLevel(benefit.getTierLevel());
-//            dto.setBenefitType(benefit.getBenefit().getBenefitType());
-//            dto.setBenefitValue(benefit.getBenefitValue());
-//
-//            tierBenefitDtoList.add(dto);
-//        });
-//
-//        membershipTierDto.setBenefits(tierBenefitDtoList);
+        List<TierBenefitDto> tierBenefitDtoList = new ArrayList<>();
+        entity.getTierPlanPricing().getTier().getBenefits().forEach(benefit -> {
+            TierBenefitDto dto = new TierBenefitDto();
+            dto.setId(benefit.getId());
+            dto.setBenefitType(benefit.getBenefit().getBenefitType());
+            dto.setBenefitValue(benefit.getBenefitValue());
+
+            tierBenefitDtoList.add(dto);
+        });
+        membershipTierDto.setBenefits(tierBenefitDtoList);
+
         MembershipPlanDto membershipPlanDto = new MembershipPlanDto();
         membershipPlanDto.setId(entity.getTierPlanPricing().getPlan().getId());
         membershipPlanDto.setName(entity.getTierPlanPricing().getPlan().getName());

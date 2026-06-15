@@ -20,8 +20,8 @@ public class TierBenefitEntity extends BaseEntity {
     @JoinColumn(name = "membership_tier_id", nullable = false)
     private MembershipTierEntity membershipTier;
 
-    @Column(name = "tier_level", nullable = false, unique = true)
-    private String tierLevel;
+//    @Column(name = "tier_level", nullable = false, unique = true)
+//    private String tierLevel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "benefit_id")

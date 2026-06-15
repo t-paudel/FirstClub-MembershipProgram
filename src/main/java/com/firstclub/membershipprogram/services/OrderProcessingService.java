@@ -1,7 +1,6 @@
 package com.firstclub.membershipprogram.services;
 
-import com.firstclub.membershipprogram.dtos.MembershipTierDto;
-import com.firstclub.membershipprogram.dtos.UserSubscriptionDto;
+import com.firstclub.membershipprogram.dtos.*;
 import com.firstclub.membershipprogram.repositories.UserMonthlyMetricRepository;
 import com.firstclub.membershipprogram.tierEvaluation.TierEvaluationEngine;
 import jakarta.transaction.Transactional;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class OrderProcessingService {
@@ -28,24 +29,42 @@ public class OrderProcessingService {
     MembershipBenefitApplier benefitApplier;
 
     @Transactional
-    public BigDecimal simulateCheckout(String userName, BigDecimal baseCartAmount) {
-        BigDecimal finalPrice = benefitApplier.calculateDiscountedPrice(userName, baseCartAmount);
+    public CheckoutDto simulateCheckout(String userName, BigDecimal baseCartAmount) {
+        CheckoutDto checkoutDto = new CheckoutDto();
+        AmountDto amountDto = new AmountDto();
 
-        boolean freeDelivery = benefitApplier.hasFreeDelivery(userName);
+        BigDecimal productPrice = benefitApplier.calculateDiscountedPrice(userName, baseCartAmount);
+        BigDecimal deliveryCharges = benefitApplier.calculateDeliveryCharges(userName);
+
+        amountDto.setProductPrice(productPrice);
+        amountDto.setDeliveryCharges(deliveryCharges);
+        amountDto.setTotalPrice(productPrice.add(deliveryCharges));
 
         String currentMonthYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
-//        Optional<UserMonthlyMetricEntity> data = metricRepository.findByUserNameAndMonthYear(userName, currentMonthYear);
-        metricRepository.incrementUserMetrics(userName, currentMonthYear, finalPrice);
+        metricRepository.incrementUserMetrics(userName, currentMonthYear, productPrice);
 
         MembershipTierDto eligibleTier = evaluationEngine.evaluateEligibleTier(userName);
 
         UserSubscriptionDto userSubscriptionDto = membershipService.getCurrentMembership(userName);
         if(userSubscriptionDto != null) {
+            Map<BenefitType, String> benefitMap = new HashMap<>();
             int currentLevel = userSubscriptionDto.getTierPlanPricing().getTier().getTierLevel();
-            if(eligibleTier.getTierLevel() > currentLevel)
+            if(eligibleTier.getTierLevel() > currentLevel) {
                 membershipService.changeTier(userName, eligibleTier.getId());
+
+                eligibleTier.getBenefits()
+                        .forEach(b -> benefitMap.put(b.getBenefitType(), b.getBenefitValue()));
+                checkoutDto.setTierType(eligibleTier.getName());
+            } else {
+                userSubscriptionDto.getTierPlanPricing().getTier().getBenefits()
+                        .forEach(b -> benefitMap.put(b.getBenefitType(), b.getBenefitValue()));
+                checkoutDto.setTierType(userSubscriptionDto.getTierPlanPricing().getTier().getName());
+            }
+            checkoutDto.setBenefits(benefitMap);
         }
 
-        return finalPrice;
+        checkoutDto.setAmount(amountDto);
+
+        return checkoutDto;
     }
 }

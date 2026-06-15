@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class TierBenefitDto {
     private Long id;
-    private String tierLevel;
     private BenefitType benefitType;
     private String benefitValue;
 }

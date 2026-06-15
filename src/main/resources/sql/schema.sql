@@ -87,9 +87,9 @@ CREATE TABLE user_monthly_metrics (
       total_order_value DECIMAL(10, 2),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-          ON UPDATE CURRENT_TIMESTAMP
+          ON UPDATE CURRENT_TIMESTAMP,
 
-      ADD CONSTRAINT UK_user_month UNIQUE (user_name, month_year);
+      CONSTRAINT UK_user_month UNIQUE (user_name, month_year)
 );
 
 

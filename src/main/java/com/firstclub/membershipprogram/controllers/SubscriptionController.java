@@ -23,8 +23,8 @@ public class SubscriptionController {
     }
 
     @PutMapping
-    public ResponseEntity<UserSubscriptionDto> changeTier(@RequestBody SubscriptionRequest request) {
-        UserSubscriptionDto data = membershipService.changeTier(request.getUserName(), request.getTierId());
+    public ResponseEntity<UserSubscriptionDto> upgradeSubscription(@RequestBody SubscriptionRequest request) {
+        UserSubscriptionDto data = membershipService.upgradeSubscription(request);
         return ResponseEntity.ok(data);
     }
 

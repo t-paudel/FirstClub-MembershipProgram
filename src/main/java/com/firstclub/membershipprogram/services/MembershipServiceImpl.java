@@ -3,6 +3,7 @@ package com.firstclub.membershipprogram.services;
 import com.firstclub.membershipprogram.dtos.SubscriptionRequest;
 import com.firstclub.membershipprogram.dtos.SubscriptionStatus;
 import com.firstclub.membershipprogram.dtos.UserSubscriptionDto;
+import com.firstclub.membershipprogram.entities.MembershipPlanEntity;
 import com.firstclub.membershipprogram.entities.MembershipTierEntity;
 import com.firstclub.membershipprogram.entities.TierPlanPricingEntity;
 import com.firstclub.membershipprogram.entities.UserSubscriptionEntity;
@@ -80,6 +81,36 @@ public class MembershipServiceImpl implements MembershipService {
                 .orElseThrow(() -> new TierMappingException("Pricing matrix configuration missing for target tier and current plan."));
 
         activeSub.setTierPlanPricing(newPricing);
+        UserSubscriptionEntity savedEntity = subscriptionRepository.save(activeSub);
+
+        return subscriptionMapper.map(savedEntity);
+    }
+
+    @Override
+    public UserSubscriptionDto upgradeSubscription(SubscriptionRequest request) {
+        UserSubscriptionEntity activeSub = subscriptionRepository.findActiveSubscriptionForUpdate(request.getUserName())
+                .orElseThrow(() -> new NoActiveSubscriptionException("No active subscription found to modify."));
+
+        MembershipTierEntity currentTier = activeSub.getTierPlanPricing().getTier();
+        MembershipTierEntity targetTier = (request.getTierId() != null) ?
+                tierRepository.findById(request.getTierId()).orElseThrow(() -> new TierMappingException("Target tier not found."))
+                : currentTier;
+
+        MembershipPlanEntity currentPlan = activeSub.getTierPlanPricing().getPlan();
+        Long targetPlanId = (request.getPlanId() != null) ? request.getPlanId() : currentPlan.getId();
+
+        if (currentTier.getId().equals(targetTier.getId()) && currentPlan.getId().equals(targetPlanId)) {
+            throw new TierMappingException("User is already on this tier and plan configuration.");
+        }
+
+        TierPlanPricingEntity newPricing = pricingRepository.findActivePricing(targetTier.getId(), targetPlanId)
+                .orElseThrow(() -> new TierMappingException(
+                        String.format("Pricing matrix configuration missing for Tier ID: %d and Plan ID: %d",
+                                targetTier.getId(), targetPlanId))
+                );
+
+        activeSub.setTierPlanPricing(newPricing);
+
         UserSubscriptionEntity savedEntity = subscriptionRepository.save(activeSub);
 
         return subscriptionMapper.map(savedEntity);

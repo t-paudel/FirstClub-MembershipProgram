@@ -8,6 +8,8 @@ public interface MembershipService {
 
     UserSubscriptionDto changeTier(String userName, Long tierId);
 
+    UserSubscriptionDto upgradeSubscription(SubscriptionRequest request);
+
     void cancelSubscription(String userName);
 
     UserSubscriptionDto getCurrentMembership(String userName);

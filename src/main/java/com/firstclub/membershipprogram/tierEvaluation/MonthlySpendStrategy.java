@@ -35,8 +35,8 @@ public class MonthlySpendStrategy implements TierEvaluationStrategy {
 
     private BigDecimal getRequiredSpendForTier(String tierName) {
         return switch (tierName.toUpperCase()) {
-            case "PLATINUM" -> new BigDecimal("500.00");
-            case "GOLD" -> new BigDecimal("150.00");
+            case "PLATINUM" -> new BigDecimal("5000.00");
+            case "GOLD" -> new BigDecimal("2000.00");
             default -> BigDecimal.ZERO;
         };
     }

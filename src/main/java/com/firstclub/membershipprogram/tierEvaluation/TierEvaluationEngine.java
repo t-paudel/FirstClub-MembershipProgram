@@ -2,6 +2,7 @@ package com.firstclub.membershipprogram.tierEvaluation;
 
 import com.firstclub.membershipprogram.dtos.MembershipTierDto;
 import com.firstclub.membershipprogram.entities.MembershipTierEntity;
+import com.firstclub.membershipprogram.exception.TierMappingException;
 import com.firstclub.membershipprogram.mappers.MembershipTierMapper;
 import com.firstclub.membershipprogram.repositories.MembershipTierRepository;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ public class TierEvaluationEngine {
 
         MembershipTierEntity data = tierRepository.findAllByOrderByTierLevelAsc().stream()
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No default membership tiers configured in database."));
+                .orElseThrow(() -> new TierMappingException("No default membership tiers configured in database."));
 
         return tierMapper.map(data);
     }
